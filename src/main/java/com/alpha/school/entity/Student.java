@@ -5,8 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -34,7 +36,12 @@ public class Student {
     @Lob
     private byte[] photo;
 
-    private String className;
+    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinTable(name="class_student",
+               joinColumns = @JoinColumn(name="student_id"),
+               inverseJoinColumns=@JoinColumn(name="class_id"))
+    private List<Class> classes;
 
-    private String address;
+   // @Autowired
+    //private Address address;
 }
